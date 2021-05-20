@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <style>
+        li {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href=" {% url 'landing' %} ">Go Back</a>
+
+    <h1 class=' display-1'>
+        {{alert}}
+    </h1>
+
+    <div class='container mt-4'>
+        <div style='text-align: right; display: flex; justify-content: flex-end;'>
+            <form action="ex_user/" method='post' class='col-md-4'>
+                {% csrf_token %}
+                <label for="exampleDataList" class="form-label">Existing Users</label>
+                <input class="form-control" list="datalistOptions" name='srcho' id="exampleDataList"
+                    placeholder="Type to search...">
+                <datalist id="datalistOptions">
+                    {% for client in clients %}
+                    <a href=" {% url 'my_app:excli' client.id %} "></a>
+                    <option value="{{client.full_name}} | {{client.phone}}">
+                        {% endfor %}
+                </datalist>
+                <button class="btn btn-success mt-3" type="submit">Choose User</button>
+            </form>
+        </div>
+
+        <hr>
+        <h1 class='text-center display-3'>Create New User</h1>
+        <form method="post" class="row g-3 needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="col-md-6">
+                <label for="validationCustom01" class="form-label">First name</label>
+                <input type="text" class="form-control" name="first_name" id="validationCustom01" placeholder="Ex: John"
+                    required>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom02" class="form-label">Last name</label>
+                <input type="text" class="form-control" name="last_name" id="validationCustom02" placeholder="Ex: Doe"
+                    required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom03" class="form-label">Age</label>
+                <input type="number" class="form-control" name="age" id="validationCustom03" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom03" class="form-label">Number</label>
+                <input type="text" class="form-control" name="phone" value='+880' id="validationCustom03" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom04" class="form-label">Billing</label>
+                <select class="form-select" name="billing" id="validationCustom04" required>
+                    <option selected disabled value="">Choose...</option>
+                    {% for billing in billings %}
+                    <option>{{ billing.type }}</option>
+
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">Transaction Id</label>
+                <input type="text" class="form-control" name="transaction_id" id="validationCustom01" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">Invoice No</label>
+                <input type="text" class="form-control" name="invoice_no" id="validationCustom01" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom04" class="form-label">Project</label>
+                <select class="form-select" name="project" id="validationCustom04" required>
+                    <option selected disabled value="">Choose...</option>
+                    {% for project in projects %}
+                    <option> {{project.name}} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-success" type="submit">Submit form</button>
+            </div>
+        </form>
+
+
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td>
+                        <a href=" {% url 'my_app:excli' client.id %} ">
+                            {{client.first_name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{client.last_name}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+
+
+
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })();
+    </script>
+</body>
+
+</html>

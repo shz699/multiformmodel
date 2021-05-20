@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+
+<body>
+     <a href=" / ">Go Back</a> 
+
+    <h1 class=' display-1'>
+        {{alert}}
+    </h1>
+
+    <div class='container mt-4'>
+        <form method="post" class="row g-3 needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="col-md-6">
+                <label for="validationCustom01" class="form-label">First name</label>
+                <input readonly type="text" class="form-control" name="first_name" value="{{first_name}}" id="validationCustom01"
+                    placeholder="Ex: John" required>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom02" class="form-label">Last name</label>
+                <input readonly type="text" class="form-control" name="last_name" value="{{last_name}}" id="validationCustom02"
+                    placeholder="Ex: Doe" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom03" class="form-label">Age</label>
+                <input readonly type="number" class="form-control" name="age" value="{{age}}" id="validationCustom03" required>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom03" class="form-label">Number</label>
+                <input readonly type="text" class="form-control" name="phone" value='{{phone}}' id="validationCustom03" required>
+            </div>
+            <div class="col-md-2">
+                <label for="validationCustom04" class="form-label">Billing</label>
+                <select class="form-select" name="billing" id="validationCustom04" required>
+                    <option selected readonly value="">Choose...</option>
+                    {% for billing in billings %}
+                    <option>{{ billing.type }}</option>
+
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="validationCustom04" class="form-label">Payment Type</label>
+                <select class="form-select" name="payment" id="validationCustom04" required>
+                    <option selected readonly value="">Choose...</option>
+                    {% for payment in payments %}
+                    <option>{{ payment.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">Transaction Id</label>
+                <input type="text" class="form-control" name="transaction_id" id="validationCustom01" required>
+            </div>
+
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">Invoice No</label>
+                <input type="text" class="form-control" name="invoice_no" id="validationCustom01" required>
+            </div>
+
+            <div class="col-md-4">
+
+                <label for="validationCustom04" class="form-label">Project</label>
+                <select  class="form-select" name="project" id="validationCustom04" required>
+                    <option readonly selected value="{{project_user}}"> Selected: {{project_user}} </option>
+                    {% for project in projects %}
+                    <option> {{project.name}} </option>
+                    {% endfor %}
+                </select>
+
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-success" type="submit">Submit form</button>
+
+            </div>
+        </form>
+
+
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Age
+                    </th>
+                    <th>
+                        Phone
+                    </th>
+                    <th>
+                       Project
+                    </th>
+                    <th>
+                       Transaction Id
+                    </th>
+                    <th>
+                       Invoice Id
+                    </th>
+                    <th>
+                       Payment Type
+                    </th>
+                    <th>
+                      Billing
+                    </th>
+                    <th>
+                      Date
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                   {% for account in accounts %}
+                <tr>
+                    <td>
+                       {{account.client.full_name}}
+                    </td>                
+                    <td>
+                        {{age}}
+                    </td>
+                    <td>
+                        {{phone}}
+                    </td>
+                    <td>
+                        {{project_user}}
+                    </td>
+                   <td>
+                        {{account.transaction_id}}
+                    </td> 
+                   <td>
+                       {{account.invoice_no}}
+                    </td> 
+                    <td>
+                       {{account.type}}
+                    </td> 
+                   <td>
+                        {{account.billing.type}}
+                    </td> 
+                   <td>
+                        {{account.date}}
+                    </td> 
+                </tr>
+                   {% endfor %}
+             
+            </tbody>
+
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+
+</html>
